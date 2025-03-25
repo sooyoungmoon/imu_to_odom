@@ -1,3 +1,4 @@
+import glob
 from setuptools import find_packages, setup
 
 package_name = 'imu_to_odom'
@@ -10,6 +11,7 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/launch', glob.glob('launch/*.py')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -21,6 +23,7 @@ setup(
     entry_points={
         'console_scripts': [
             'imureader = imu_to_odom.imureader:main',
+            'odom_publisher = imu_to_odom.odom_publisher:main',
             # module_name = package_name.module_name:function_name
         ],
     },

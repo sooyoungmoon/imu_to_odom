@@ -11,13 +11,12 @@ class IMUReader(Node):
 
     def __init__(self):
         super().__init__('imu_reader')
-        self.time_step = 0.1
-        self.publisher_ = self.create_publisher(String, 'imu_data', 10)
+        self.time_step = 0.05
         self.publisher_imu = self.create_publisher(Imu, 'imu/data_raw', 10)
         self.publisher_mag = self.create_publisher(MagneticField, 'imu/mag', 10)
         self.timer = self.create_timer(self.time_step, self.serial_callback)
         self.get_logger().info('IMU Reader Node has been started.')
-        self.serial_port = serial.Serial('/dev/ttyACM0', 9600)
+        self.serial_port = serial.Serial('/dev/ttyACM0', 115200)
         self.acc = [0, 0, 0]
         self.gyro = [0, 0, 0]
         self.mag = [0, 0, 0]
@@ -34,14 +33,10 @@ class IMUReader(Node):
         # compute position
         position = self.updatePosition(acc, gyro, mag, dt)
         return position, orientation
-    
- 
-        
-
-        return self.position, self.orientation
 
     def computePose(self):
         donothing = 0
+
     def printImuData(self):
         self.get_logger().info(f'ACC: {self.acc}')
         self.get_logger().info(f'GYRO: {self.gyro}')
